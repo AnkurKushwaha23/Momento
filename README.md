@@ -6,6 +6,12 @@ UI is built with **Material 3** for a smooth and modern experience.
 
 ---
 
+## 📥 Download App
+
+[![Download Momento](https://img.shields.io/badge/Download%20App-Drive-blue?style=for-the-badge&logo=google-drive)](https://drive.google.com/file/d/1u7h-sTDMehRjAon3bAQomsmKDqMIqbi3/view?usp=sharing)
+
+---
+
 ## 🚀 Features
 
 - 📝 Create, update, and delete **Notes**
@@ -29,6 +35,6 @@ UI is built with **Material 3** for a smooth and modern experience.
 | Material 3          | Modern UI Components                            |
 | MVVM                | Clean Architecture Pattern                      |
 | Kotlin Coroutines   | Asynchronous operations (Database, WorkManager) |
-| Koin                | Dependency Injection Framework                 |
+| Koin                | Dependency Injection Framework                  |
 
 ---
