@@ -131,7 +131,16 @@ class MainActivity : ComponentActivity() {
                                 label = { Text("Notes") },
                                 selected = currentScreen == Screens.NotesScreen,
                                 onClick = {
-                                    navController.navigate(Screens.NotesScreen)
+                                    navController.navigate(Screens.NotesScreen){
+                                        // Remove all destinations from back stack up to the specified destination
+                                        popUpTo(Screens.NotesScreen) { inclusive = false }
+
+                                        // Avoid duplicate destinations on the back stack
+                                        launchSingleTop = true
+
+                                        // Whether to restore state when navigating back to a previously visited destination
+                                        restoreState = true
+                                    }
                                 }
                             )
                             NavigationBarItem(
@@ -139,7 +148,16 @@ class MainActivity : ComponentActivity() {
                                 label = { Text("Todos") },
                                 selected = currentScreen == Screens.TaskScreen,
                                 onClick = {
-                                    navController.navigate(Screens.TaskScreen)
+                                    navController.navigate(Screens.TaskScreen){
+                                        // Remove all destinations from back stack up to the specified destination
+                                        popUpTo(Screens.NotesScreen) { inclusive = false }
+
+                                        // Avoid duplicate destinations on the back stack
+                                        launchSingleTop = true
+
+                                        // Whether to restore state when navigating back to a previously visited destination
+                                        restoreState = true
+                                    }
                                 }
                             )
                         }
