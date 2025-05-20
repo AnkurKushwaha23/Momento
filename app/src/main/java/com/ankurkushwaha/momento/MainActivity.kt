@@ -1,5 +1,6 @@
 package com.ankurkushwaha.momento
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -7,6 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -32,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.ankurkushwaha.momento.domain.model.Notes
-import com.ankurkushwaha.momento.presentation.components.AdvancedTimePickerExample
+import com.ankurkushwaha.momento.presentation.components.DateTimePickerDialog
 import com.ankurkushwaha.momento.presentation.navigation.BottomNavViewModel
 import com.ankurkushwaha.momento.presentation.navigation.NavGraphSetup
 import com.ankurkushwaha.momento.presentation.navigation.Screens
@@ -53,6 +55,7 @@ class MainActivity : ComponentActivity() {
     private val taskAlertWorkerViewModel: TaskAlertWorkerViewModel by inject()
     private val bottomNavViewModel: BottomNavViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,7 +134,7 @@ class MainActivity : ComponentActivity() {
                                 label = { Text("Notes") },
                                 selected = currentScreen == Screens.NotesScreen,
                                 onClick = {
-                                    navController.navigate(Screens.NotesScreen){
+                                    navController.navigate(Screens.NotesScreen) {
                                         // Remove all destinations from back stack up to the specified destination
                                         popUpTo(Screens.NotesScreen) { inclusive = false }
 
@@ -148,7 +151,7 @@ class MainActivity : ComponentActivity() {
                                 label = { Text("Todos") },
                                 selected = currentScreen == Screens.TaskScreen,
                                 onClick = {
-                                    navController.navigate(Screens.TaskScreen){
+                                    navController.navigate(Screens.TaskScreen) {
                                         // Remove all destinations from back stack up to the specified destination
                                         popUpTo(Screens.NotesScreen) { inclusive = false }
 
@@ -238,8 +241,11 @@ class MainActivity : ComponentActivity() {
                     }
 
                     if (timePickerDialog) {
-                        AdvancedTimePickerExample(
-                            onConfirm = { timeStamp ->
+                        DateTimePickerDialog(
+                            onDismissRequest = {
+                                taskViewModel.hideTimerPicker()
+                            },
+                            onDateTimeSelected = { timeStamp ->
                                 Log.d("violet", "$timeStamp")
                                 val timeSt = validateTimeStamp(timeStamp)
                                 if (timeSt) {
@@ -253,9 +259,6 @@ class MainActivity : ComponentActivity() {
                                     ).show()
                                 }
                             },
-                            onDismiss = {
-                                taskViewModel.hideTimerPicker()
-                            }
                         )
                     }
                 }
@@ -263,3 +266,23 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+//                        AdvancedTimePickerExample(
+//                            onConfirm = { timeStamp ->
+//                                Log.d("violet", "$timeStamp")
+//                                val timeSt = validateTimeStamp(timeStamp)
+//                                if (timeSt) {
+//                                    taskViewModel.setTimeStamp(timeStamp)
+//                                    taskViewModel.hideTimerPicker()
+//                                } else {
+//                                    Toast.makeText(
+//                                        context,
+//                                        "Please select a valid Time",
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
+//                                }
+//                            },
+//                            onDismiss = {
+//                                taskViewModel.hideTimerPicker()
+//                            }
+//                        )
