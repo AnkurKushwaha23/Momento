@@ -1,5 +1,7 @@
 package com.ankurkushwaha.momento.presentation.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -35,7 +37,7 @@ import com.ankurkushwaha.momento.utils.formatTimestamp
  * @author Ankur Kushwaha
  * Created on 2025/04/16 at 10:33
  */
-
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SwipeableNoteCard(
@@ -94,6 +96,7 @@ fun SwipeableNoteCard(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NoteCard(
     note: Notes,
@@ -162,20 +165,20 @@ fun NoteCard(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun NoteCardPreview() {
-    val sampleNote = Notes(
-        id = 1,
-        title = "Meeting Notes",
-        description = "Discuss project deliverables and timelines.",
-        timestamp = System.currentTimeMillis(),
-        isPinned = true
-    )
-
-    MaterialTheme {
-//        NoteCard(note = sampleNote, onNoteClick = {}, onNoteLongPress = {})
-        SwipeableNoteCard(note = sampleNote, onNoteClick = {}, onNoteLongPress = {}, onNoteDismiss = {})
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun NoteCardPreview() {
+//    val sampleNote = Notes(
+//        id = 1,
+//        title = "Meeting Notes",
+//        description = "Discuss project deliverables and timelines.",
+//        timestamp = System.currentTimeMillis(),
+//        isPinned = true
+//    )
+//
+//    MaterialTheme {
+////        NoteCard(note = sampleNote, onNoteClick = {}, onNoteLongPress = {})
+//        SwipeableNoteCard(note = sampleNote, onNoteClick = {}, onNoteLongPress = {}, onNoteDismiss = {})
+//    }
+//}
 

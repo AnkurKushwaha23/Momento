@@ -1,5 +1,7 @@
 package com.ankurkushwaha.momento.presentation.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -48,7 +50,7 @@ import com.ankurkushwaha.momento.utils.validateTimeStamp
  * @author Ankur Kushwaha
  * Created on 2025/04/16 at 10:53
  */
-
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun SwipeableTaskCard(
@@ -110,6 +112,7 @@ fun SwipeableTaskCard(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TaskCard(
     task: Task,
@@ -190,19 +193,19 @@ fun TaskCard(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun TaskCardPreview() {
-    val task = Task(
-        id = 1,
-        description = "Buy groceries Here's the converted VectorDrawable version based on your SVG",
-        isCompleted = true,
-        priority = Priority.HIGH,
-        dueDate = 1744950780000
-    )
-
-    MaterialTheme {
-//        TaskCard(task = task, onTaskClick = {})
-        SwipeableTaskCard(task = task, onTaskClick = {}, onTaskDismiss = {}, onTaskCardClick = {})
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun TaskCardPreview() {
+//    val task = Task(
+//        id = 1,
+//        description = "Buy groceries Here's the converted VectorDrawable version based on your SVG",
+//        isCompleted = true,
+//        priority = Priority.HIGH,
+//        dueDate = 1744950780000
+//    )
+//
+//    MaterialTheme {
+////        TaskCard(task = task, onTaskClick = {})
+//        SwipeableTaskCard(task = task, onTaskClick = {}, onTaskDismiss = {}, onTaskCardClick = {})
+//    }
+//}

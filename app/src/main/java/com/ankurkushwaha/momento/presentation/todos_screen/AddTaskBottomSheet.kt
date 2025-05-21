@@ -1,5 +1,7 @@
 package com.ankurkushwaha.momento.presentation.todos_screen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -49,7 +51,7 @@ import com.ankurkushwaha.momento.utils.validateTimeStamp
  * @author Ankur Kushwaha
  * Created on 2025/04/17 at 18:01
  */
-
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTaskBottomSheet(
