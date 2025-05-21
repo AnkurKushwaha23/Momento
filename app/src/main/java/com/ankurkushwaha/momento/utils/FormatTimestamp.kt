@@ -8,10 +8,11 @@ import java.util.Locale
  * @author Ankur Kushwaha
  * Created on 2025/04/16 at 10:45
  */
-
+@RequiresApi(Build.VERSION_CODES.O)
 fun formatTimestamp(timestamp: Long): String {
-    val sdf = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
-    return sdf.format(Date(timestamp))
+    val dateTime = LocalDateTime.ofEpochSecond(timestamp / 1000, 0, ZoneOffset.UTC)
+    val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a")
+    return dateTime.format(formatter)
 }
 
 fun minutesUntilTimestamp(targetTimestamp: Long): Long {
