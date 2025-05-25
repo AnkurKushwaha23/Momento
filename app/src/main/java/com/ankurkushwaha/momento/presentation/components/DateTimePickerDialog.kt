@@ -21,14 +21,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -46,13 +44,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.ankurkushwaha.momento.R
+import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
@@ -161,7 +164,7 @@ fun DateTimePickerDialog(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             Icon(
-                                imageVector = Icons.Default.DateRange,
+                                painter = painterResource(R.drawable.ic_calendar),
                                 contentDescription = "Date",
                                 tint = if (isDatePickerVisible) MaterialTheme.colorScheme.onPrimary
                                 else MaterialTheme.colorScheme.onSurfaceVariant
@@ -190,7 +193,7 @@ fun DateTimePickerDialog(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             Icon(
-                                imageVector = Icons.Default.Notifications,
+                                painter = painterResource(R.drawable.ic_clock),
                                 contentDescription = "Time",
                                 tint = if (!isDatePickerVisible) MaterialTheme.colorScheme.onPrimary
                                 else MaterialTheme.colorScheme.onSurfaceVariant
@@ -225,11 +228,20 @@ fun DateTimePickerDialog(
                 // Date or Time picker
                 if (isDatePickerVisible) {
                     // Date Picker
+                    val today = LocalDate.now()
                     val datePickerState = rememberDatePickerState(
                         initialSelectedDateMillis = selectedDate
                             .atStartOfDay()
                             .toInstant(ZoneOffset.UTC)
-                            .toEpochMilli()
+                            .toEpochMilli(),
+                        selectableDates = object : SelectableDates {
+                            override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                                val date =
+                                    Instant.ofEpochMilli(utcTimeMillis).atZone(ZoneOffset.UTC)
+                                        .toLocalDate()
+                                return !date.isBefore(today)
+                            }
+                        }
                     )
 
                     // Observe date changes
@@ -288,11 +300,13 @@ fun DateTimePickerDialog(
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
                         onClick = {
-                            // Combine date and time into LocalDateTime
                             val dateTime = LocalDateTime.of(selectedDate, selectedTime)
 
-                            // Convert to Unix timestamp (milliseconds)
-                            val timestamp = dateTime.toInstant(ZoneOffset.UTC).toEpochMilli()
+                            // ✅ Convert to Unix timestamp (milliseconds) using system's default timezone
+                            val timestamp = dateTime
+                                .atZone(ZoneId.systemDefault())
+                                .toInstant()
+                                .toEpochMilli()
 
                             // Pass the timestamp to callback
                             onDateTimeSelected(timestamp)

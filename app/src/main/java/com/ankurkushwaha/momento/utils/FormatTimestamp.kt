@@ -2,8 +2,8 @@ package com.ankurkushwaha.momento.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.time.Instant
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 /**
@@ -12,7 +12,9 @@ import java.time.format.DateTimeFormatter
  */
 @RequiresApi(Build.VERSION_CODES.O)
 fun formatTimestamp(timestamp: Long): String {
-    val dateTime = LocalDateTime.ofEpochSecond(timestamp / 1000, 0, ZoneOffset.UTC)
+    val dateTime = Instant.ofEpochMilli(timestamp)
+        .atZone(ZoneId.systemDefault())
+        .toLocalDateTime()
     val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a")
     return dateTime.format(formatter)
 }
