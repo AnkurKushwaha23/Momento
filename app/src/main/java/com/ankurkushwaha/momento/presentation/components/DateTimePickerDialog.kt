@@ -100,7 +100,7 @@ fun DateTimePickerDialog(
     var selectedTime by remember { mutableStateOf(initialDateTime.toLocalTime()) }
 
     // State to track which picker is currently active (date or time)
-    var isDatePickerVisible by remember { mutableStateOf(false) }
+    var isDatePickerVisible by remember { mutableStateOf(true) }
 
     // Date and time formatters
     val dateFormatter = remember { DateTimeFormatter.ofPattern("MMM dd, yyyy") }
@@ -115,7 +115,7 @@ fun DateTimePickerDialog(
             shape = MaterialTheme.shapes.extraLarge,
             tonalElevation = 6.dp,
             modifier = Modifier
-                .padding(12.dp)
+                .padding(10.dp)
                 .wrapContentSize()
                 .background(
                     shape = MaterialTheme.shapes.extraLarge,
@@ -123,7 +123,7 @@ fun DateTimePickerDialog(
                 ),
         ) {
             Column(
-                modifier = Modifier.padding(20.dp),
+                modifier = Modifier,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Dialog title
@@ -133,47 +133,17 @@ fun DateTimePickerDialog(
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 16.dp)
+                        .padding(bottom = 16.dp, top = 16.dp, start = 16.dp)
                 )
 
                 // Toggle tabs for Date and Time
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 16.dp)
+                        .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
                         .clip(RoundedCornerShape(8.dp))
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(
-                                if (!isDatePickerVisible) MaterialTheme.colorScheme.primary
-                                else Color.Transparent
-                            )
-                            .clickable { isDatePickerVisible = false }
-                            .padding(12.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Notifications,
-                                contentDescription = "Time",
-                                tint = if (!isDatePickerVisible) MaterialTheme.colorScheme.onPrimary
-                                else MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            Text(
-                                text = "Time",
-                                color = if (!isDatePickerVisible) MaterialTheme.colorScheme.onPrimary
-                                else MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -199,6 +169,35 @@ fun DateTimePickerDialog(
                             Text(
                                 text = "Date",
                                 color = if (isDatePickerVisible) MaterialTheme.colorScheme.onPrimary
+                                else MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(
+                                if (!isDatePickerVisible) MaterialTheme.colorScheme.primary
+                                else Color.Transparent
+                            )
+                            .clickable { isDatePickerVisible = false }
+                            .padding(12.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Notifications,
+                                contentDescription = "Time",
+                                tint = if (!isDatePickerVisible) MaterialTheme.colorScheme.onPrimary
+                                else MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Text(
+                                text = "Time",
+                                color = if (!isDatePickerVisible) MaterialTheme.colorScheme.onPrimary
                                 else MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
@@ -280,7 +279,7 @@ fun DateTimePickerDialog(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp),
+                        .padding(top = 8.dp, end = 16.dp, bottom = 16.dp),
                     horizontalArrangement = Arrangement.End
                 ) {
                     TextButton(onClick = onDismissRequest) {
